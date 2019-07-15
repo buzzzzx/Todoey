@@ -10,14 +10,14 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
 
-    let itemArray = ["Find Mike", "Buy eggs", "Clear home"]
+    var itemArray = ["Find Mike", "Buy eggs", "Clear home"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
     
-    // MARK - TableView DataSource Methods
+    // MARK - TableView datasource methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
@@ -30,7 +30,7 @@ class TodoListViewController: UITableViewController {
     }
     
     
-    // MARK - TableView delegate Methods
+    // MARK - TableView delegate methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        print(indexPath.row)
         
@@ -44,6 +44,35 @@ class TodoListViewController: UITableViewController {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
+    }
+    
+    // MARK - Add New Todo items
+    @IBAction func AddButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        
+        let addAction = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            if let text = textField.text {
+                self.itemArray.append(text)
+                self.tableView.reloadData()
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            print("Cancel")
+        }
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+        }
+        
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 
 
